@@ -1,0 +1,12 @@
+{
+    "name": "auth-service",
+    "version": "1.0.0",
+    "description": "Your Auth Service description",
+    "main": "index.js",
+    "scripts": {
+      "start": "node index.js"
+    },
+    "dependencies": {
+    }
+  }
+  

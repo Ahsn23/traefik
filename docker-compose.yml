@@ -1,0 +1,49 @@
+version: "3.3"
+
+services:
+  traefik:
+    image: "traefik:v2.10"
+    container_name: "traefik"
+    command:
+      - "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=true"
+      - "--entrypoints.web.address=:9980"
+      - "--api.dashboard=true"
+      - "--api.insecure=true"
+    ports:
+      - "0.0.0.0:9980:9980"
+      - "0.0.0.0:8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+  api1x:
+    build:
+      context: ./node-simple/api1
+    container_name: api1x
+    volumes:
+      - "./api1/:/app/"
+    ports:
+      - "0.0.0.0:1180:80"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.api1.rule=PathPrefix(`/auth/username/{username:[a-z0-9A-Z-_]+}`) && Method(`GET`)"
+      - "traefik.http.routers.api1.entrypoints=web"
+      - "traefik.http.routers.api1.middlewares=fauth"
+      - "emm.public=1"
+
+
+  auth:
+    build:
+      context: ./node-simple/auth
+    container_name: "auth"
+    volumes:
+      - "./auth/:/app/"
+    ports:
+      - "0.0.0.0:9080:80"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.middlewares.fauth.forwardauth.address=http://auth:80"
+      - "traefik.http.middlewares.fauth.forwardauth.authResponseHeaders=X-Emms-Token,X-UUID,MMSAuth,MMSAuthSig,MMSSession"
+      - "traefik.http.middlewares.fauth.forwardauth.authRequestHeaders=Host,Accept-Encoding,X-Forwarded-Url,X-Forwarded-Method,X-Forwarded-For,MMSAuth,MMSAuthSig,MMSSession"
