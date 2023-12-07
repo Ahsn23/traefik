@@ -1,3 +1,4 @@
+// index.js
 const http = require('http');
 const url = require('url');
 
@@ -11,10 +12,10 @@ const requestListener = function (req, res) {
     res.write(req.url + '\n');
     res.write(JSON.stringify(query));
     res.write('\n');
-    res.end('{"server":"api1x", "message": "This is a JSON response"}');
+    res.end('{"server":"api3x", "message": "This is a JSON response"}');
 };
 
 const server = http.createServer(requestListener);
 server.listen(port, host, () => {
-    console.log(`Server API1x is running on http://${host}:${port}`);
+    console.log(`Main Server API3x is running on http://${host}:${port}`);
 });

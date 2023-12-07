@@ -1,0 +1,21 @@
+{
+    "name": "auth",
+    "version": "1.0.0",
+    "description": "Authentication service",
+    "main": "index.js",
+    "scripts": {
+      "start": "node index.js",
+      "dev": "nodemon -L -w index.js index.js"
+    },
+    "dependencies": {
+      "express": "^4"
+    },
+    "devDependencies": {
+      "nodemon": "^3.0.2"
+    },
+    "keywords": ["authentication", "express"],
+    "author": "Your Name",
+    "license": "ISC"
+  }
+  
+  

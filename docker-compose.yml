@@ -1,6 +1,7 @@
 version: "3.3"
 
 services:
+
   traefik:
     image: "traefik:v2.10"
     container_name: "traefik"
@@ -10,18 +11,18 @@ services:
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=true"
       - "--entrypoints.web.address=:9980"
-      - "--api.dashboard=true"
-      - "--api.insecure=true"
+      - "--api.dashboard=true"  ## dashboard
+      - "--api.insecure=true"  ## dashboard
     ports:
       - "0.0.0.0:9980:9980"
-      - "0.0.0.0:8080:8080"
+      - "0.0.0.0:8080:8080"  ## dashboard
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
 
   api1x:
     build:
-      context: ./node-simple/api1
-    container_name: api1x
+      context: ./node-simple
+    container_name: "api1x"
     volumes:
       - "./api1/:/app/"
     ports:
@@ -33,10 +34,9 @@ services:
       - "traefik.http.routers.api1.middlewares=fauth"
       - "emm.public=1"
 
-
   auth:
     build:
-      context: ./node-simple/auth
+      context: ./auth
     container_name: "auth"
     volumes:
       - "./auth/:/app/"

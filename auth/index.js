@@ -6,7 +6,6 @@ const port = 80;
 
 const authRequestListener = function (req, res) {
     console.log('Authentication successful.');
-    console.log('Received request:', req.method, req.url);
 
     res.setHeader('X-Emms-Token', 'your-emms-token');
     res.setHeader('X-UUID', 'your-uuid');
