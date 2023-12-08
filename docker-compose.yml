@@ -34,8 +34,20 @@ services:
       - "traefik.http.routers.api1.middlewares=fauth"
       - "emm.public=1"
 
+  api2x:
+    build:
+      context: ./node-simple
+      dockerfile: Dockerfile
+    container_name: api2x_container
+    ports:
+      - "0.0.0.0:1280:80"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.api2.rule=PathPrefix(`/info/config/config`)  && Method(`GET`)"
+      - "traefik.http.routers.api2.entrypoints=web"
+      - "traefik.http.routers.api2.middlewares=fauth"
 
- 
+
   auth:
     build:
       context: ./auth
@@ -48,4 +60,4 @@ services:
       - "traefik.enable=true"
       - "traefik.http.middlewares.fauth.forwardauth.address=http://auth:80"
       - "traefik.http.middlewares.fauth.forwardauth.authResponseHeaders=X-Emms-Token,X-UUID,MMSAuth,MMSAuthSig,MMSSession"
-      - "traefik.http.middlewares.fauth.forwardauth.authRequestHeaders=Host,Accept-Encoding,X-Forwarded-Url,X-Forwarded-Method,X-Forwarded-For,MMSAuth,MMSAuthSig,MMSSession"
+      - "traefik.http.middlewares.fauth.forwardauth.authRequestHeaders=Host,Accept-Encoding,X-Forwarded-Url,X-Forwarded-Method,X-Forwarded-For,MMSAuth,MMSAuthSig,MMSSession,Authorization"

@@ -2,22 +2,29 @@ const http = require('http');
 
 const host = '0.0.0.0';
 const port = 80;
+const expectedToken = 'badami'; 
 
 const authRequestListener = function (req, res) {
     try {
+        if (!req.headers.authorization) {
+            console.log('Authentication failed: Token missing.');
+            res.writeHead(401, { 'Content-Type': 'text/plain' });
+            return res.end('Unauthorized: Token missing.');
+        }
+
+        const token = req.headers.authorization.split(' ')[1];
+
+        if (token !== expectedToken) {
+            console.log('Authentication failed: Invalid token.');
+            res.writeHead(401, { 'Content-Type': 'text/plain' });
+            return res.end('Unauthorized: Invalid token.');
+        }
+
         console.log('Authentication successful.');
-
-        res.setHeader('X-Emms-Token', 'your-emms-token');
-        res.setHeader('X-UUID', 'your-uuid');
-        res.setHeader('MMSAuth', 'your-mms-auth');
-        res.setHeader('MMSAuthSig', 'your-mms-auth-sig');
-        res.setHeader('MMSSession', 'your-mms-session');
-
-        res.writeHead(200);
-        res.end('Authentiction successful.');
+        res.end('Authentication successful.');
     } catch (error) {
         console.error('Error in authentication:', error.message);
-        res.writeHead(500);
+        res.writeHead(500, { 'Content-Type': 'text/plain' });
         res.end('Internal Server Error');
     }
 };
