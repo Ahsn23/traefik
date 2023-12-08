@@ -14,7 +14,7 @@ const authRequestListener = function (req, res) {
         res.setHeader('MMSSession', 'your-mms-session');
 
         res.writeHead(200);
-        res.end('Authentication successful.');
+        res.end('Authentiction successful.');
     } catch (error) {
         console.error('Error in authentication:', error.message);
         res.writeHead(500);

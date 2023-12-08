@@ -1,14 +1,21 @@
 {
-    "name": "api1",
-    "version": "1.0.0",
-    "description": "Node.js API",
-    "main": "index.js",
-    "scripts": {
-      "start": "node index.js"
-    },
-    "dependencies": {
-      "http": "^0.0.1",
-      "url": "^0.11.0"
-    }
+  "name": "api1",
+  "version": "1.0.0",
+  "description": "Node.js API",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon -L -w index.js index.js"
+  },
+  "dependencies": {
+    "http": "^0.0.0",
+    "url": "^0.11.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
   }
-  
+}
+
+
+
+

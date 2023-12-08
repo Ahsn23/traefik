@@ -1,4 +1,3 @@
-# auth/Dockerfile
 FROM node:21-alpine
 
 RUN npm install -g nodemon
@@ -10,4 +9,4 @@ RUN npm install
 
 COPY . .
 
-CMD ["nodemon", "-L", "-w", "index.js", "index.js"]
+CMD ["nodemon", "index.js"]
